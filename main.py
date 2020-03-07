@@ -5,23 +5,84 @@ from datetime import datetime
 from database import Database
 import time
 db = Database()
-def parse():
-    for i in range(16):
-        response = requests.get('http://dt.miet.ru/ppo_it/api/{}'.format(i + 1),
-                                headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'})
-        city_data = json.loads(response.content.decode('utf-8'))['data']
-        city_data['day'] = datetime.now()
-        for k in range(city_data['area_count']):
-            response = json.loads(requests.get('http://dt.miet.ru/ppo_it/api/{}/{}'.format(i + 1, k + 1), headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'}).content.decode('utf-8'))['data']
 
-            z = 0
-            for h in response:
-                response[z]['houses'] = []
-                house = json.loads(requests.get('http://dt.miet.ru/ppo_it/api/{}/{}/{}/temperature'.format(i + 1, k + 1, h["house_id"]), headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'}).content.decode('utf-8'))['data']
+URL = 'http://dt.miet.ru/ppo_it/api'
 
-                response[z]['houses'].append(house)
-                z += 1
+# set functions
+db.drop_cities_data()
+db.drop_cities()
 
-            city_data['areas_data'] = response
-        db.add(city_data)
-parse()
+def add_cities(cities):
+    for city in cities:
+        db.add_city(city)
+
+def get_cities():
+    response = json.loads(requests.get(
+        URL, headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'}).content)['data']
+    return response
+
+
+def get_data(counter, cities):
+    for city in cities:
+        city_id = city['city_id']
+        res = requests.get(
+            f'{URL}/{city_id}',
+            headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'}
+        )
+        if res.status_code == 200:
+            content = res.json()['data']
+        for area_id in range(1, 5):
+            res_areas = requests.get(
+                f'{URL}/{city_id}/{area_id}',
+                headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'}
+            )
+            if res_areas.status_code == 200:
+                content_areas = res_areas.json()['data']
+            for house_id in range(1, 3):
+                res_houses = requests.get(
+                    f'{URL}/{city_id}/{area_id}/{house_id}',
+                    headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'}
+                )
+                if res_houses.status_code == 200:
+                    content_houses = res_houses.json()['data']
+                for apartment_id in range(1, 3):
+                    res_appartment = requests.get(
+                        f'{URL}/{city_id}/{area_id}/{house_id}/{apartment_id}',
+                        headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'}
+                    )
+
+                    content_appartment = res_appartment.json()['data']
+                    target = {
+                        'city_id': city_id,
+                        'area_id': area_id,
+                        'house_id': house_id,
+                        'apartment_id': apartment_id,
+                        'apartment_temperature': content_appartment['temperature'],
+                        'counter': counter
+                    }
+                    db.add_apartment(target)
+
+
+def add_city_data(cities, counter):
+    for i, city in enumerate(cities):
+        id = city["city_id"]
+        res = requests.get(
+            f'{URL}/{id}',
+            headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'}
+        )
+    if res.status_code == 200:
+        content = res.json()['data']
+        content['counter'] = counter
+        db.add_city_data(content)
+
+
+cities = get_cities()
+add_cities(cities)
+
+start_ev = int(time.time())
+m_range = 24 * 3600
+counter = 0
+
+while int(time.time()) - start_ev <= m_range:
+    get_data(counter, cities)
+    add_city_data(cities, counter)
