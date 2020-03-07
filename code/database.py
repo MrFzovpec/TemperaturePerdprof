@@ -21,5 +21,3 @@ class Database:
         self.collection_cities.drop()
     def drop_cities_data(self):
         self.collection_cities_temperature.drop()
-    def add_areas(self, area):
-        pass
