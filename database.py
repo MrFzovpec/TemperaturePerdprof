@@ -10,7 +10,6 @@ class Database:
         self.collection_cities = self.db['cities']
         self.collection_cities_temperature = self.db['cities_temperature']
         self.collection_ap_temp = self.db['apartment_temp']
-        self.db.apartment_temp.create_index([('city_id', pymongo.ALL), ('area_id', pymongo.ALL)])
 
     def add_city(self, city):
         self.collection_cities.insert_one(city)
