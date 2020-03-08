@@ -1,0 +1,83 @@
+{% extends '../wrapper.html' %}
+
+{% block content %}
+<section class="section content container">
+    <div class="columns">
+        <div class="column">
+            <span class="title is-4">Задание №1. Температура в реальном времени</span>
+
+            <form class="section form conten select-apartment" action="/first-task" method="get">
+
+                <div class="field">
+                    <div class="control">
+                        <div class="columns">
+                            <div class="column">
+                                <label class="label">Город</label>
+                                <div class="select">
+                                    <select id='city_id' name="city">
+                                        <option value="">Не выбрано</option>
+                                        {% for city in cities %}
+                                        <option value="{{ city.city_id }}">{{ city.city_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <label class="label">Район</label>
+                                <div class="select disabled">
+
+                                    <select required id="area_select" name="area">
+
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="column">
+                                <label class="label">Дом</label>
+                                <div class="select">
+                                    <select required id="house_select" name="house">
+
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="columns">
+                            <div class="column">
+                                <label class="label">Квартира №</label>
+                                <div class="select">
+                                    <select required id="apartment_select" name="apartment">
+
+                                    </select>
+                                </div>
+                                <button type="submit" class="button is-primary">Показать</button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="column">
+            <div class="result section">
+                {% if temperature != None %}
+                <h1 class="title is-1">Температура в городе N: <br><i><b>{{ temperature }} градусов</b></i></h1>
+                <script type="text/javascript">
+                    function rel() {
+                        document.location.reload(true)
+                    }
+
+                    setTimeout(rel, 20000);
+                </script>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+</section>
+<script src="/static/js/main.js" type="text/javascript"></script>
+{% endblock %}
