@@ -64,13 +64,14 @@
         <div class="column">
             <div class="result section">
                 {% if temperature != None %}
-                <h1 class="title is-1">Температура в городе N: <br><i><b>{{ temperature }} градусов</b></i></h1>
+                <br>
+                <h1 class="title is-2">Температура воздуха по адресу: город {{ city_name }}, район {{ area_id }}, д.{{ house_id }}, кв.{{apartment_id}} = <i><b>{{ temperature }}℃</b></i></h1>
                 <script type="text/javascript">
                     function rel() {
                         document.location.reload(true)
                     }
 
-                    setTimeout(rel, 20000);
+                    setTimeout(rel, 13000);
                 </script>
                 {% endif %}
             </div>

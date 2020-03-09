@@ -11,6 +11,7 @@ URL = 'http://dt.miet.ru/ppo_it/api'
 # set functions
 db.drop_cities_data()
 db.drop_cities()
+db.drop_apartment()
 
 def add_cities(cities):
     for city in cities:
@@ -31,7 +32,7 @@ def get_data(counter, cities):
         )
         if res.status_code == 200:
             content = res.json()['data']
-        for area_id in range(1, 5):
+        for area_id in range(1, 6):
             res_areas = requests.get(
                 f'{URL}/{city_id}/{area_id}',
                 headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'}
@@ -50,13 +51,17 @@ def get_data(counter, cities):
                         f'{URL}/{city_id}/{area_id}/{house_id}/{apartment_id}',
                         headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'}
                     )
+                    if res_appartment.status_code == 200:
+                        content_appartment = res_appartment.json()['data']
+                    else:
+                        continue
 
-                    content_appartment = res_appartment.json()['data']
                     target = {
                         'city_id': city_id,
+                        'city_temperature': requests.get(f'{URL}/{city_id}/temperature', headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'}).json()['data'],
                         'area_id': area_id,
-                        'house_id': house_id,
                         'apartment_id': apartment_id,
+                        'house_id': house_id,
                         'apartment_temperature': content_appartment['temperature'],
                         'counter': counter
                     }
@@ -70,10 +75,10 @@ def add_city_data(cities, counter):
             f'{URL}/{id}',
             headers={'X-Auth-Token': 'dn8lq5kcinavtpfn'}
         )
-    if res.status_code == 200:
-        content = res.json()['data']
-        content['counter'] = counter
-        db.add_city_data(content)
+        if res.status_code == 200:
+            content = res.json()['data']
+            content['counter'] = counter
+            db.add_city_data(content)
 
 
 cities = get_cities()
@@ -86,3 +91,5 @@ counter = 0
 while int(time.time()) - start_ev <= m_range:
     get_data(counter, cities)
     add_city_data(cities, counter)
+    counter += 1
+    time.sleep(60)

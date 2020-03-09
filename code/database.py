@@ -17,6 +17,8 @@ class Database:
         self.collection_cities_temperature.insert_one(city_data)
     def add_apartment(self, data):
         self.collection_ap_temp.insert_one(data)
+    def drop_apartment(self):
+        self.collection_ap_temp.drop()
     def drop_cities(self):
         self.collection_cities.drop()
     def drop_cities_data(self):

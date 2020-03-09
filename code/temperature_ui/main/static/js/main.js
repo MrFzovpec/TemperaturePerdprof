@@ -9,6 +9,7 @@ $('#city_id').change(function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
             response = JSON.parse(xhr.responseText)
             areas_count = response.areas_count
+            $('#area_select').append($("<option></option>").text('Не выбрано'));
             for (i = 1; i <= areas_count; i++){
                 $('#area_select').append($("<option></option>").attr("value", i).text(i));
             }
@@ -30,6 +31,7 @@ $('#area_select').change(function() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
             response = JSON.parse(xhr.responseText)
+            $('#house_select').append($("<option></option>").text('Не выбрано'));
             response.forEach((house, i) => {
 
                 $('#house_select').append($("<option></option>").attr("value", house.house_id).text(house.house_id));
@@ -51,6 +53,8 @@ $('#house_select').change(function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
             response = JSON.parse(xhr.responseText)
             window.apartment_count = response
+            $('#apartment_select').append($("<option></option>").text('Не выбрано'));
+
             for (i = 1; i <= apartment_count; i++){
                 $('#apartment_select').append($("<option></option>").attr("value", i).text(i));
             }
