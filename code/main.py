@@ -9,9 +9,7 @@ db = Database()
 URL = 'http://dt.miet.ru/ppo_it/api'
 
 # set functions
-db.drop_cities_data()
-db.drop_cities()
-db.drop_apartment()
+
 
 def add_cities(cities):
     for city in cities:

@@ -41,4 +41,41 @@ def first(request):
 #second task
 
 def second_task(request):
-    return render(request, 'tasks/second.html')
+    client = MongoClient(
+        'mongodb+srv://Petr:GPpetr1309@cluster0-kil4l.mongodb.net/test?retryWrites=true&w=majority')
+    db = client['predprof']
+    temperature_cities = db.cities_temperature
+    data = list(temperature_cities.find({'city_id': 1}))
+    temperature = [['День', 'Температура на улице']]
+    for temp in data:
+        temperature.append([temp['counter'] + 1, temp['temperature']])
+
+    return render(request, 'tasks/second.html', {'temperature': temperature})
+
+def third_task(request):
+    client = MongoClient(
+        'mongodb+srv://Petr:GPpetr1309@cluster0-kil4l.mongodb.net/test?retryWrites=true&w=majority')
+    db = client['predprof']
+    collection_cities = db.cities
+    cities = list(collection_cities.find())
+    apart_temp = db.apartment_temp
+    temps = list(apart_temp.find({'area_id': 1, 'house_id': 1, 'apartment_id': 1}))
+    iters = int(len(temps))
+    while iters % 16 != 0:
+        iters -= 1
+    headers = [city['city_name'] for city in cities][::-1]
+    headers.append('День')
+    headers = headers[::-1]
+    temperature = [headers]
+    for i in range(0, iters, 16):
+        data = [temps[i]['counter'] + 1]
+        for t in temps[i:i + 16]:
+            data.append(t['apartment_temperature'])
+        temperature.append(data)
+    return render(request, 'tasks/third.html', {'temperature': temperature})
+
+def forth_task(request):
+    client = MongoClient(
+        'mongodb+srv://Petr:GPpetr1309@cluster0-kil4l.mongodb.net/test?retryWrites=true&w=majority')
+    db = client['predprof']
+    collection_cities = db.apartment_temp

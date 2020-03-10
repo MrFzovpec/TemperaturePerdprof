@@ -1,0 +1,15 @@
+{% extends '../wrapper.html' %}
+
+{% block content %}
+<section class="section content container">
+
+    <span class="title is-4">Изменение температуры, полученной в одной квартире во всех городах</span>
+
+</section>
+<div id="chart_div" style="width: 100vw; height: 100vh"></div>
+
+
+<script type="text/javascript">
+    drawData({{ temperature | safe }}, 2)
+</script>
+{% endblock %}
