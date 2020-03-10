@@ -6,10 +6,10 @@
     <span class="title is-4">Максимальная температура, полученная в квартирах пяти районов города Восточный</span>
 
 </section>
-<div id="chart_div" style="width: 100vw; height: 100vh"></div>
+<div id="chart_div" style="width: 100%; height: 500px;"></div>
 
 
 <script type="text/javascript">
-    drawData({{ temperature | safe }}, 2)
+    drawData({{ temperature | safe }} , 3)
 </script>
 {% endblock %}

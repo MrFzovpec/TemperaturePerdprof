@@ -3,13 +3,13 @@
 {% block content %}
 <section class="section content container">
 
-    <span class="title is-4">Изменение температуры, полученной в одной квартире во всех городах</span>
+    <span class="title is-4">Изменение средней температуры в квартирах в городе Восточный</span>
 
 </section>
 <div id="chart_div" style="width: 100%; height: 700px;"></div>
 
 
 <script type="text/javascript">
-    drawData({{ temperature | safe }}, 2)
+    drawData({{ temperature | safe }}, 1)
 </script>
 {% endblock %}

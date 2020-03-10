@@ -22,8 +22,11 @@ function drawData(data, type) {
                     }
                 },
                 vAxis: {
-                    minValue: 0,
-                },
+                    title: 'Температура, ℃',
+                    titleTextStyle: {
+                        color: '#333'
+                    }
+                }
             };
 
             var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
@@ -63,6 +66,42 @@ function drawData(data, type) {
 
             var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
             chart.draw(data, options);
+        }
+    } else if (type == 3) {
+        google.charts.load("current", {
+            packages: ["corechart"]
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable(window.temp_data);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                {
+                    calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation"
+                },
+            ]);
+
+            var options = {
+                vAxis: {
+                    title: '№ Района',
+                    titleTextStyle: {
+                        color: '#333'
+                    }
+                },
+                hAxis: {
+                    title: 'Температура, ℃',
+                    titleTextStyle: {
+                        color: '#333'
+                    }
+                },
+            };
+            var chart = new google.visualization.BarChart(document.getElementById("chart_div"));
+            chart.draw(view, options);
         }
     }
 
