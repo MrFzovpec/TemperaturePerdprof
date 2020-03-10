@@ -6,10 +6,11 @@ import pymongo
 class Database:
     def __init__(self):
         self.client = MongoClient('mongodb+srv://Petr:GPpetr1309@cluster0-kil4l.mongodb.net/test?retryWrites=true&w=majority')
-        self.db = self.client['predprof']
-        self.collection_cities = self.db['cities']
-        self.collection_cities_temperature = self.db['cities_temperature']
-        self.collection_ap_temp = self.db['apartment_temp']
+        self.db = self.client.predprof
+        self.collection_cities = self.db.cities
+        self.collection_cities_temperature = self.db.cities_temperature
+        self.collection_ap_temp = self.db.apartment_temp
+        self.res_collection = self.db.results
 
     def add_city(self, city):
         self.collection_cities.insert_one(city)
@@ -23,3 +24,6 @@ class Database:
         self.collection_cities.drop()
     def drop_cities_data(self):
         self.collection_cities_temperature.drop()
+    def result(self, data, num):
+        data['num_task'] = num
+        self.res_collection.insert_one(data)

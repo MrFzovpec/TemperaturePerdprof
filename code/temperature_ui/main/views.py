@@ -47,70 +47,35 @@ def second_task(request):
     client = MongoClient(
         'mongodb+srv://Petr:GPpetr1309@cluster0-kil4l.mongodb.net/test?retryWrites=true&w=majority')
     db = client['predprof']
-    temperature_cities = db.cities_temperature
-    data = list(temperature_cities.find({'city_id': 1}))
-    temperature = [['День', 'Температура на улице']]
-    for temp in data:
-        temperature.append([temp['counter'] + 1, temp['temperature']])
+    results = db.results
+    data = results.find_one({'num_task': 0})['value']
 
-    return render(request, 'tasks/second.html', {'temperature': temperature})
+    return render(request, 'tasks/second.html', {'temperature': data})
 
 
 def third_task(request):
     client = MongoClient(
         'mongodb+srv://Petr:GPpetr1309@cluster0-kil4l.mongodb.net/test?retryWrites=true&w=majority')
     db = client['predprof']
-    collection_cities = db.cities
-    cities = list(collection_cities.find())
-    apart_temp = db.apartment_temp
-    temps = list(apart_temp.find(
-        {'area_id': 1, 'house_id': 1, 'apartment_id': 1}))
-    iters = int(len(temps))
-    while iters % 16 != 0:
-        iters -= 1
-    headers = [city['city_name'] for city in cities][::-1]
-    headers.append('День')
-    headers = headers[::-1]
-    temperature = [headers]
-    for i in range(0, iters, 16):
-        data = [temps[i]['counter'] + 1]
-        for t in temps[i:i + 16]:
-            data.append(t['apartment_temperature'])
-        temperature.append(data)
-    return render(request, 'tasks/third.html', {'temperature': temperature})
+    results = db.results
+    data = results.find_one({'num_task': 1})['value']
+
+    return render(request, 'tasks/third.html', {'temperature': data})
 
 
 def forth_task(request):
     client = MongoClient(
         'mongodb+srv://Petr:GPpetr1309@cluster0-kil4l.mongodb.net/test?retryWrites=true&w=majority')
     db = client['predprof']
-    apart_temp = db.apartment_temp
+    results = db.results
+    data = results.find_one({'num_task': 2})['value']
 
-    temperatures = [['Район', 'Максимальная температура, ℃']]
-    for areaId in range(1, 6):
-        temps = list(apart_temp.find({'city_id': 2, 'area_id': areaId}))
-        data = sorted(temps, key=lambda t: t['counter'])
-        maxes = []
-        for temp in data:
-            maxes.append(temp['apartment_temperature'])
-
-        temperatures.append([f'{areaId}', max(maxes)])
-
-    return render(request, 'tasks/forth.html', {'temperature': temperatures})
+    return render(request, 'tasks/forth.html', {'temperature': data})
 
 def avarage(request):
     client = MongoClient(
         'mongodb+srv://Petr:GPpetr1309@cluster0-kil4l.mongodb.net/test?retryWrites=true&w=majority')
     db = client['predprof']
-    apart_temp = db.apartment_temp
-
-    data = [['День', 'Средняя температура, ℃']]
-    for i in range(230):
-        temps = apart_temp.find({'city_id': 2, 'counter': i})
-        sums = []
-        for temp in temps:
-            sums.append(temp['apartment_temperature'])
-
-        data.append([i, sum(sums) / len(sums)])
-
+    results = db.results
+    data = results.find_one({'num_task': 3})['value']
     return render(request, 'tasks/avarage.html', {"temperature": data})
