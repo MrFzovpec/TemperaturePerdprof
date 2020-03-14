@@ -1,52 +1,84 @@
-header{
+header {
     padding: 1%
 }
-nav{
+
+nav {
     align-items: center;
 }
-.navbar-brand, .navbar-tabs{
+
+.navbar-brand, .navbar-tabs {
     align-items: center;
 }
-.navbar-menu{
+
+.navbar-menu {
     margin-left: 2%
 }
 
-form.form{
+#mobile-menu {
+    background: white;
+    position: fixed;
+    height: 100%;
+    width: 100vw;
+    z-index: 99999;
+    display: none;
+}
+
+#close-mobile-menu {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+}
+
+.mobile-menu-section {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+form.form {
     margin-top: 50px;
     border: 0.5px solid #8B8B8B;
     border-radius: 10px
 }
-form.form button{
+
+form.form button {
     margin-left: 30px
 }
-.result{
+
+.result {
     display: flex;
     align-items: center;
 }
+
 #preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #fff;
-  /* change if the mask should have another color then white */
-  z-index: 99;
-  /* makes sure it stays on top */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    /* change if the mask should have another color then white */
+    z-index: 99;
+    /* makes sure it stays on top */
 }
 
 #status {
-  width: 200px;
-  height: 200px;
-  position: absolute;
-  left: 50%;
-  /* centers the loading animation horizontally one the screen */
-  top: 50%;
-  /* centers the loading animation vertically one the screen */
-  background-image: url(https://raw.githubusercontent.com/niklausgerber/PreLoadMe/master/img/status.gif);
-  /* path to your loading animation */
-  background-repeat: no-repeat;
-  background-position: center;
-  margin: -100px 0 0 -100px;
-  /* is width and height divided by two */
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: 50%;
+    /* centers the loading animation horizontally one the screen */
+    top: 50%;
+    /* centers the loading animation vertically one the screen */
+    background-image: url(https://raw.githubusercontent.com/niklausgerber/PreLoadMe/master/img/status.gif);
+    /* path to your loading animation */
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: -100px 0 0 -100px;
+    /* is width and height divided by two */
 }

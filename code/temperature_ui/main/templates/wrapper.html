@@ -20,13 +20,79 @@
                 'overflow': 'visible'
             });
         })
+        $('#open-mobile-menu').click(function(){
+            $('#mobile-menu').slideToggle()
+        })
+
+        $('#close-mobile-menu').click(function(){
+            $('#mobile-menu').slideToggle()
+        })
+
     </script>
     <title>PredProf-IGPT</title>
 </head>
 
 <body>
+
     <div id="preloader">
         <div id="status">&nbsp;</div>
+    </div>
+    <div id="mobile-menu">
+        <div id="close-mobile-menu">
+            <img src="https://img.icons8.com/ios/50/000000/close-window.png" />
+        </div>
+        <section class="section content container mobile-menu-section">
+            <div class="menu">
+                <p class="menu-label">
+                    Страницы
+                </p>
+                <ul class="menu-list">
+                    <li>
+                        <a href="/">
+                            Главная
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/static/media/documentation.docx" download>
+                            Документация
+                        </a>
+                    </li>
+                </ul>
+                <p class="menu-label">
+                    Задания
+                </p>
+                <ul class="menu-list">
+                    <li>
+                        <a href="/" class="navbar-item">
+                            Температура в реальном времени
+                        </a>
+                    </li>
+                    <li>
+                        <a href='/first-graphics' class="navbar-item">
+                            Изменение уличной температуры
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/second-graphics" class="navbar-item">
+                            Изменение температуры в одной квартире во всех городах
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/third-graphics" class="navbar-item">
+                            Максимальная температура, полученная в квартирах пяти районов одного города.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/avarage-graphics" class="navbar-item">
+                            Изменение средней температуры в квартирах в городе
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </section>
+
     </div>
 
     <header>
@@ -37,11 +103,13 @@
                         <span class="title is-2">IGPT</span>
                     </a>
 
-                    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <div role="button" class="navbar-burger burger" id="open-mobile-menu" aria-label="menu">
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
-                    </a>
+
+                    </div>
+
                 </div>
 
                 <div id="navbarBasicExample" class="navbar-menu">
