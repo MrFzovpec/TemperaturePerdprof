@@ -13,8 +13,7 @@ nav {
 .navbar-menu {
     margin-left: 2%
 }
-
-#mobile-menu {
+#mobile_menu {
     background: white;
     position: fixed;
     height: 100%;

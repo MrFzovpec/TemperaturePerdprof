@@ -20,14 +20,6 @@
                 'overflow': 'visible'
             });
         })
-        $('#open-mobile-menu').click(function(){
-            $('#mobile-menu').slideToggle()
-        })
-
-        $('#close-mobile-menu').click(function(){
-            $('#mobile-menu').slideToggle()
-        })
-
     </script>
     <title>PredProf-IGPT</title>
 </head>
@@ -37,7 +29,7 @@
     <div id="preloader">
         <div id="status">&nbsp;</div>
     </div>
-    <div id="mobile-menu">
+    <div id="mobile_menu">
         <div id="close-mobile-menu">
             <img src="https://img.icons8.com/ios/50/000000/close-window.png" />
         </div>
@@ -162,6 +154,15 @@
             </div>
         </div>
     </section>
+    <script type="text/javascript">
+        $('.navbar-burger').click(function() {
+            $('#mobile_menu').slideToggle()
+        })
+
+        $('#close-mobile-menu').click(function() {
+            $('#mobile_menu').slideToggle()
+        })
+    </script>
     {% block content %}
 
     {% endblock %}
